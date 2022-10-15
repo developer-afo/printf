@@ -1,77 +1,87 @@
-.\" Manpage for _printf.
-.TH _printf 3 "17 April 2022" "1.0" "User commands for _printf"
+.TH _printf 1 "April 16, 2022" "version 1.0" "_printf man page"
 .SH NAME
- _printf - format and print data.
+_printf - format and print data
 .SH SYNOPSIS
-.nf
-.BI printf FORMAT [ARGUMENT]...
-.PP
-.BI "#include 'main.h'"
-.BI "#include <stdarg.h>"
-.BI "#include <unistd.h>"
-.BI "#include <stdlib.h>"
-.BI "#include <stdio.h>"
-.BI "#include <limits.h>"
-.PP
-.BI "int _printf(const char *format, ...);"
-.BI "buff_append(char *buff_dest, va_list arg, unsigned int buff_count, char (*parser)(va_list));"
-.BI "print_buff(char *buff, unsigned int nbuff);"
-.BI "str_len(char *s);"
-.BI "*_strcpy(char *dest, char *src);"
-.BI "parse_char(va_list arg);"
-.BI "int parse_string(char *buff_dest, va_list arg, int buff_count);"
-.BI "int parse_int(char *string, va_list list, int buff_count);"
-.BI "int parse_perc(char *buff_dest, va_list arg, int buff_count);"
-.BI "int parse_binary(char *buff_dest, va_list arg, int buff_count);"
-.PP
+#include <unistd.h> <stdarg.h> <stdlib.h> "main.h"
+
+int printf(const char *format, ...);
+
 .SH DESCRIPTION
-The function _printf() prints ARGUMENTS(s) according to format, or execute according to various Option.
-.PP
+function that produces output according to a format.  Writes the output under the control of a format string that specifies how subsequent arguments (or arguments accessed via the variable-length argument facilities of stdarg(3)) are converted for output.  Execute according to option:
+
+.I
+.SS CONVERSION SPECIFIERS:
+.RS
+
+A character that specifies the type of conversion to be applied. The conversion specifiers and their meanings are:
+
+.IP d,i
+Decimal signed integer. The int argument is converted to signed decimal notation. 
+
+.IP c
+Character. The int argument is converted to an unsigned char, and the resulting character is written.
+
+.IP s
+The const char * argument is expected to be a pointer to an array of character type (pointer to a string). Characters from the array are written up to (but not including) a terminating null byte ('\0').
+
+.IP o,u,x,X
+The unsigned int argument is converted to unsigned octal (o), unsigned decimal (u), or unsigned hexadecimal (x and X) notation. The letters abcdef are used for x conversions; the letters ABCDEF are used for X conversions.
+
+.IP p
+The void * pointer argument is printed in hexadecimal (as if by %#x or %#lx).
+
+.I
+.SS CUSTOM CONVERSION SPECIFIERS
+.RS
+
+.IP b
+Decimal signed integer. The int argument is converted to binary notation.
+
+.IP r
+The const char * argument is expected to be a pointer to an array of character type (pointer to a string). Characters from the array are written up to (but n\ot including) a terminating null byte ('\0') in reverse order.
+
+
+.IP R
+The const char * argument is expected to be a pointer to an array of character type (pointer to a string). Characters from the array are written up to (but n\
+\ot including) a terminating null byte ('\0') in ROT13 format.
+
+
 .SH RETURN VALUE
-Returns the number of all the characters printed, excluding the NULL byte used to end output to strings.
-.SH Format String Format
-The format string is a character string, which contains two types of directives: ordinary characters which are coppied to the output stream; and conversion specifiers. Each conversion specification is introduced by the character %, and ends with a conversion specifier.
-.SH Conversion Specifiers
-This are the characters that specifies the type of conversion to be applied. The conversion specifiers and their meanings are:
-.TP
-.B c
-.R The \fIint\fR argument is converted to a char, and the result is printed.
-.TP
-.B s
-.R The \fIconst char *\fR is a pointer to an array of characters, that converts the corresponding argument to a character string.
-.TP
-.B d, i
-.R The \fIint\fR argument is converted to signed decimal notation.
-.TP
-.B %, %%
-.R If only the \fI%\fR character is written no argument is converted. The complete conversion specification is \fI%%\fR, that returns the actual sign if there in front.
-.PP
-.SH NOTES
-.R The \fB_printf()\fR is a project collaboration between \fBSamuel Adebayo\fR and \fBGerald Juwah\fR, Students studing Software Engineering at \fBALX School\fR.
-.SH BUGS
-.R In process
-.PP
-.SH EXAMPLE
-.R To print the the string \fBHello ALX!\fR and its length in decimal.
+.RS
+Upon successful return, these functions return the number of characters printed (excluding the null byte used to end output to strings).
 
-#include "main.h"
+If an output error is encountered, a negative value (-1) is returned.
 
-int main(void)
 
-{
+.SH EXAMPLES:
+.RS
+.SS --------------
+.I
+.SS Character[%c]:
+.RS
+.SS --------------
+.SS Input         _printf("This is a char: [%c]", 'C');
+.SS Output	   This is a char: [C]
+.SS --------------
+.I
+.SS Literal String:
+.RS
+.SS --------------
+.SS Input	 _printf("Let's try to printf a simple sentence");
+.SS Output	  Let's try to printf a simple sentence
+.SS --------------
+.I
+.SS Integers[%i]:
+.RS
+.SS --------------
+.SS Input	 _printf("This is a number: [%i]", 20);
+.SS Output	  This is a number: [20]
+.SS --------------
+.RE
 
-	int length;
-
-	_printf("%s\n", "Hello, ALX!")
-
-	_printf("Hello ALX! contains %d characters\n", length);
-
-	length = _printf("Hello Holberton!");
-
-	return (0);
-
-}
 .SH SEE ALSO
-.R printf(3)
+.I printf(3)
+.SH BUGS
+Report _printf Elizabeth Salako (waleade602@gmail.com), Kouam Franck Joel Gaetan (kouamfranck96@gmail.com)
 .SH AUTHORS
-Written by \fBSamuel Adebayo\fR and \fBGerald Juwah\fR.
+ELizabeth Salako and Kouam Franck Joel Gaetan, ALX Cohort 5.
